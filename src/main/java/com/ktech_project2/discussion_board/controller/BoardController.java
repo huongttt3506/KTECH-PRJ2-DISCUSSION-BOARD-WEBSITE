@@ -6,7 +6,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
-@RequestMapping("boards")
+// /boards
+@RequestMapping("/boards")
 public class BoardController {
     private final BoardService service;
 
@@ -14,44 +15,28 @@ public class BoardController {
     public BoardController(BoardService service) {
         this.service = service;
     }
+    // don't have create, update, delete Method. get boards data from boards.sql
 
-    //CREATE
-    @GetMapping("create")
-    public String createView() {
-        return "boards/create.html";
-    }
-
-    @PostMapping("create")
-    public String create(
-            @RequestParam("name") String name
-    ) {
-        Long id = service.create(name).getId();
-        //POST - redirect - GET
-        return String.format("redirext:/boards/%d");
-    }
     // READ ALL
     // /boards/
     @GetMapping
     public String readAll(Model model) {
         model.addAttribute("boards", service.readAll());
-        return "boards/read.html";
+        return "boards.html";
     }
 
     //READ ONE
     // /boards/{boardId}
-    @GetMapping("{id}")
+    @GetMapping("/boards/{boardId}")
     public String readOne(
-            @PathVariable("id")
+            @PathVariable("boardId")
             Long id,
             Model
             model
     ) {
-        model.addAttribute("boards", service.readOne(id));
-        return "boards/read.html";
+        model.addAttribute("board", service.readOne(id));
+        return "board.html";
     }
 
-    //UPDATE
-
-    //DELETE
 
 }
