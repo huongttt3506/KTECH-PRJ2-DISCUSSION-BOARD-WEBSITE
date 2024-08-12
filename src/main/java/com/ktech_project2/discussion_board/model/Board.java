@@ -16,6 +16,11 @@ public class Board {
     @Setter
     private String name;
 
+    @Getter
     @OneToMany (mappedBy = "board", cascade = CascadeType.ALL)
     private List<Article> articles;
+
+    public Board(String name) {
+        this.name = name;
+    }
 }

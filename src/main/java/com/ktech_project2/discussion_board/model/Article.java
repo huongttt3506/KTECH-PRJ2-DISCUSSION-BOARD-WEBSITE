@@ -25,6 +25,12 @@ public class Article {
     @Setter
     private LocalDateTime createAt;
 
+
+    @PrePersist
+    protected void onCreate() {
+        this.createAt = LocalDateTime.now();
+    }
+
     @ManyToOne
     private Board board;
 
@@ -39,8 +45,16 @@ public class Article {
     )
     private List<Hashtag> hashtags;
 
+    public Article(String title, String content, String password) {
+        this.title = title;
+        this.content = content;
+        this.password = password;
+    }
 
-
-
-
+    public void setBoard(Board board) {
+        this.board = board;
+        if (board !=null) {
+            board.getArticles().add(this);
+        }
+    }
 }
