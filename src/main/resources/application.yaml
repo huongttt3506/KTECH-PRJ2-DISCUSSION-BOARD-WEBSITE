@@ -5,14 +5,13 @@ spring:
 
   jpa:
     hibernate:
-      ddl-auto: update
-
+      ddl-auto: create
     show-sql: true
-
     database-platform: org.hibernate.community.dialect.SQLiteDialect
-
-
     defer-datasource-initialization: true
+  # (중략)
   sql:
     init:
       mode: always
+      # 요거
+      encoding: utf-8

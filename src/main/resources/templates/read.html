@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org/">
+<head>
+  <meta charset="UTF-8">
+  <title>Article View</title>
+</head>
+<body>
+<h1>[[${article.title}]]</h1>
+<p>Content: [[${article.content}]]</p>
+<p>Create at: [[${article.createAt}]]</p>
+
+<a href="/students">Back</a>
+<a th:href="@{/students/{id}/update-view (id=${student.id})}">Update</a>
+<form th:action="@{/students/{id}/delete (id=${student.id})}" method="post">
+  <input type="submit" value="Delete">
+</form>
+</body>
+</html>

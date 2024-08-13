@@ -7,7 +7,7 @@ import com.ktech_project2.discussion_board.repository.BoardRepository;
 import org.springframework.stereotype.Service;
 
 
-import javax.swing.plaf.PanelUI;
+
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
@@ -102,6 +102,15 @@ public class ArticleService {
 
         articleRepository.deleteById(id);
     }
+    // Method to find all articles by Board ID
+    public List<Article> findArticlesByBoardId(Long boardId) {
+        Board board = boardRepository.findById(boardId)
+                .orElseThrow(() -> new IllegalArgumentException("Board not found with id: " + boardId));
+        return articleRepository.findByBoardId(boardId);
+    }
+
+
+    //
 
 
 

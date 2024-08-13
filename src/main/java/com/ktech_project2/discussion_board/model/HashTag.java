@@ -8,7 +8,7 @@ import java.util.List;
 
 @Entity
 @Getter
-public class Hashtag {
+public class HashTag {
     @Id
     @GeneratedValue (strategy = GenerationType.IDENTITY)
     private Long id;
@@ -16,8 +16,8 @@ public class Hashtag {
     @Setter
     private String name;
 
-    @ManyToMany(mappedBy = "hashtags")
-    private List<Article> articles;
+//    @ManyToMany(mappedBy = "hashtags")
+//    private List<Article> articles;
 
 
 

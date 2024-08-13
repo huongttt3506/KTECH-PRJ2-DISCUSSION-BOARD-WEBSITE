@@ -37,13 +37,14 @@ public class Article {
     @OneToMany (mappedBy = "article", cascade = CascadeType.ALL)
     private List<Comment> comments;
 
-    @ManyToMany
-    @JoinTable(
-            name = "article_hashtag",
-            joinColumns = @JoinColumn(name = "article_id"),
-            inverseJoinColumns = @JoinColumn(name = "hashtag_id")
-    )
-    private List<Hashtag> hashtags;
+
+//    @ManyToMany
+//    @JoinTable(
+//            name = "article_hashtag",
+//            joinColumns = @JoinColumn(name = "articleId"),
+//            inverseJoinColumns = @JoinColumn(name = "hashtagId")
+//    )
+//    private List<HashTag> hashtags;
 
     public Article(String title, String content, String password) {
         this.title = title;

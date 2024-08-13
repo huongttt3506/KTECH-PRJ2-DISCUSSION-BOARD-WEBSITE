@@ -13,7 +13,7 @@ public interface ArticleRepository
 extends JpaRepository<Article, Long> {
 
     //Find all article belong to a specific board
-    List<Article> findByBoard(Board board);
+    List<Article> findByBoardId(Long boardId);
 
     // Query to find Previous Article
     @Query("SELECT a FROM Article a WHERE a.board = :board AND a.id < :articleId ORDER BY a.id DESC")
@@ -33,11 +33,11 @@ extends JpaRepository<Article, Long> {
             Long articleId
     );
 
-    // Query to find all articles by hashtag
-    List<Article> findByHashtag(
-            @Param("hashtag")
-            String hashtag
-    );
+//    // Query to find all articles by hashtag
+//    List<Article> findByHashtag(
+//            @Param("hashtags")
+//            String hashtag
+//    );
 
 
 }

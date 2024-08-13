@@ -20,6 +20,10 @@ public class Board {
     @OneToMany (mappedBy = "board", cascade = CascadeType.ALL)
     private List<Article> articles;
 
+
+    public Board() {
+    }
+
     public Board(String name) {
         this.name = name;
     }
