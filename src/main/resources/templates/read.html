@@ -58,6 +58,10 @@
     <div class="comment">
       <p th:text="${comment.content}">Comment Content</p>
       <p th:text="${comment.createAt}">Creation Date</p>
+      <form th:action="@{/articles/{articleId}/comments/{commentId}/delete(articleId=${article.id}, commentId=${comment.id})}" method="post">
+        <input type="password" name="password" placeholder="비밀번호" required />
+        <button type="submit" class="btn btn-danger">Delete</button>
+      </form>
     </div>
     <hr>
   </div>
