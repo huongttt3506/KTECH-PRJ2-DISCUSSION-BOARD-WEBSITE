@@ -2,8 +2,10 @@ package com.ktech_project2.discussion_board.service;
 
 import com.ktech_project2.discussion_board.model.Article;
 import com.ktech_project2.discussion_board.model.Board;
+import com.ktech_project2.discussion_board.model.Comment;
 import com.ktech_project2.discussion_board.repository.ArticleRepository;
 import com.ktech_project2.discussion_board.repository.BoardRepository;
+import com.ktech_project2.discussion_board.repository.CommentRepository;
 import org.springframework.stereotype.Service;
 
 
@@ -16,13 +18,16 @@ import java.util.Optional;
 public class ArticleService {
     private final ArticleRepository articleRepository;
     private final BoardRepository boardRepository;
+    private final CommentRepository commentRepository;
 
     public ArticleService(
             ArticleRepository articleRepository,
-            BoardRepository boardRepository
+            BoardRepository boardRepository,
+            CommentRepository commentRepository
     ) {
         this.articleRepository = articleRepository;
         this.boardRepository = boardRepository;
+        this.commentRepository = commentRepository;
     }
 
     //Create
@@ -100,7 +105,17 @@ public class ArticleService {
     }
 
 
-    //
+    // Find previous article in the same board
+    public Optional<Article> findPreviousArticle(Board board, Long articleId) {
+        return articleRepository.findPreviousArticle(board, articleId);
+    }
+    // Find next article in the same board
+    public Optional<Article> findNextArticle(Board board, Long articleId) {
+        return articleRepository.findNextArticle(board, articleId);
+    }
+
+
+
 
 
 

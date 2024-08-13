@@ -15,17 +15,11 @@ extends JpaRepository<Article, Long> {
     //Find all article belong to a specific board
     List<Article> findByBoardId(Long boardId);
 
-    // Query to find Previous Article
     @Query("SELECT a FROM Article a WHERE a.board = :board AND a.id < :articleId ORDER BY a.id DESC")
-    Optional<Article> findPreviousArticle(
-            @Param("board") Board board, @Param("articleId") Long articleId);
+    Optional<Article> findPreviousArticle(@Param("board") Board board, @Param("articleId") Long articleId);
 
-
-    // Query to find Next Article
     @Query("SELECT a FROM Article a WHERE a.board = :board AND a.id > :articleId ORDER BY a.id ASC")
-    Optional<Article> findNextArticle(
-            @Param("board") Board board,
-            @Param("articleId") Long articleId);
+    Optional<Article> findNextArticle(@Param("board") Board board, @Param("articleId") Long articleId);
 
 //    // Query to find all articles by hashtag
 //    List<Article> findByHashtag(

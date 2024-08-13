@@ -2,23 +2,29 @@ package com.ktech_project2.discussion_board.controller;
 
 import com.ktech_project2.discussion_board.model.Article;
 import com.ktech_project2.discussion_board.model.Board;
+import com.ktech_project2.discussion_board.model.Comment;
 import com.ktech_project2.discussion_board.service.ArticleService;
 import com.ktech_project2.discussion_board.service.BoardService;
+import com.ktech_project2.discussion_board.service.CommentService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 @RequestMapping("articles")
 public class ArticleController {
     private final ArticleService articleService;
     private final BoardService boardService;
+    private final CommentService commentService;
 
-    public ArticleController(ArticleService articleService, BoardService boardService) {
+    public ArticleController(ArticleService articleService, BoardService boardService, CommentService commentService) {
         this.articleService = articleService;
         this.boardService = boardService;
+        this.commentService = commentService;
     }
     //CREATE
     // /articles/new
@@ -55,8 +61,10 @@ public class ArticleController {
             @PathVariable("articleId")
             Long articleId,
             Model model
-    ) {
-        model.addAttribute("article", articleService.readOne(articleId));
+    ) {Article article = articleService.readOne(articleId);
+        List<Comment> comments = commentService.readAll(articleId);
+        model.addAttribute("article", article);
+        model.addAttribute("comments", comments);
         return "read";
     }
     //READ ALL ARTICLES BY BOARD ID
@@ -101,23 +109,36 @@ public class ArticleController {
         return String.format("redirect:/articles/%d", articleId);
     }
 
-
-
-    //UPDATE
-    // /boards/{boardId}/article/
-
     //DELETE /articles/{articleId}/delete/
+    @PostMapping("/{articleId}/delete")
+    public String delete(
+            @PathVariable("articleId") Long articleId,
+            @RequestParam("password") String password
+    ) {
+        articleService.delete(articleId, password);
+        return "redirect:/articles";
+    }
 
+    // GET PREVIOUS ARTICLE -  NEXT ARTICLE
+    @GetMapping("/articles/{articleId}")
+    public String getArticleDetails(@PathVariable Long articleId, Model model) {
+        Article article = articleService.readOne(articleId);
+        if (article != null) {
+            Board board = article.getBoard();
+            Optional<Article> previousArticle = articleService.findPreviousArticle(board, articleId);
+            Optional<Article> nextArticle = articleService.findNextArticle(board, articleId);
 
-    // COMMENT
-    // /articles/{articleId}/comments/
+            model.addAttribute("article", article);
+            model.addAttribute("previousArticle", previousArticle.orElse(null));
+            model.addAttribute("nextArticle", nextArticle.orElse(null));
 
-    // DELETE COMMENT
-    // /articles/{articleId}/comments/{commentId}/delete/
+            System.out.println("Previous Article: " + previousArticle);
+            System.out.println("Next Article: " + nextArticle);
+            return "read";
+        }
+        return "redirect:/articles";
+    }
 
-    // GET PREVIOUS ARTICLE
-
-    // GET NEXT ARTICLE
 
 
 }

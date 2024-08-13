@@ -8,8 +8,19 @@
 <body>
 <h1>Article Details</h1>
 
+
 <div th:if="${article != null}">
-  <div>
+  <div class="mt-3">
+    <div>
+      <!-- Previous article link -->
+      <a th:if="${previousArticle != null}" th:href="@{/articles/{articleId}(articleId=${previousArticle.id})}" class="btn btn-primary">Previous Article</a>
+      <!-- Next article link -->
+      <a th:if="${nextArticle != null}" th:href="@{/articles/{articleId}(articleId=${nextArticle.id})}" class="btn btn-primary">Next Article</a>
+    </div>
+
+  </div>
+
+  <div class="mt-3">
     <a href="/articles/new" class="btn btn-secondary">뒤로가기</a>
     <a th:href="@{/articles/{articleId}/update(articleId=${article.id})}" class="btn btn-warning">수정하기</a>
   </div>
@@ -18,10 +29,39 @@
   <p>Posted in board: <span th:text="${article.board.name}">Board Name</span></p>
   <p>Create at: <span th:text="${article.createAt}">Board Name</span> </p>
   <hr>
+<!--  delete article form - button-->
   <form th:action="@{/articles/{articleId}/delete(articleId=${article.id})}" method="post" class="d-inline">
-    <input type="text" name="password" value="비밀번호">
+    <input type="text" name="password" placeholder="비밀번호">
     <button type="submit" class="btn btn-danger">Delete</button>
   </form>
+
+  <hr>
+<!--  Add Comment Form-->
+  <h3>Add Comment</h3>
+  <form th:action="@{/articles/{articleId}/comments(articleId=${article.id})}" method="post">
+    <div class="mb-3">
+      <label class="form-label" for="content-input">Content:</label>
+      <textarea class="form-control" id="content-input" name="content" required></textarea>
+    </div>
+    <div class="mb-3">
+      <label class="form-label" for="password-input">Password:</label>
+      <input class="form-control" type="password" id="password-input" name="password" required>
+    </div>
+    <button type="submit" class="btn btn-primary">Add Comment</button>
+  </form>
+
+  <hr>
+
+  <!-- Display Comments -->
+  <h3>Comments</h3>
+  <div th:each="comment : ${comments}">
+    <div class="comment">
+      <p th:text="${comment.content}">Comment Content</p>
+      <p th:text="${comment.createAt}">Creation Date</p>
+    </div>
+    <hr>
+  </div>
+
 
 </div>
 <div th:if="${article == null}">
