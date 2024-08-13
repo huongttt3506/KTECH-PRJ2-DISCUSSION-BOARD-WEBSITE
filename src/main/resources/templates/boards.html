@@ -22,7 +22,7 @@
     <div class="article-list">
         <h1 th:text="${selectedBoard != null ? selectedBoard.name + ' 계시판' : '전체 계시판'}"></h1>
         <h1>
-            <a th:href="@{articles/new}" class="btn-create-article">WRITE</a>
+            <a href="/articles/new" class="btn-create-article">WRITE</a>
         </h1>
     </div>
 

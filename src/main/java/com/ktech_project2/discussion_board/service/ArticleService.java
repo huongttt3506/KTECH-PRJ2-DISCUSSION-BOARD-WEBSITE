@@ -30,16 +30,11 @@ public class ArticleService {
             Long boardId,
             String title,
             String content,
-            String password
-    ) {
+            String password) {
         Board board = boardRepository.findById(boardId)
-                .orElseThrow();
+                .orElseThrow(() -> new NoSuchElementException("Board not found with id: " + boardId));
 
-        Article article = new Article(
-                title,
-                content,
-                password
-        );
+        Article article = new Article(title, content, password);
         article.setBoard(board);
         return articleRepository.save(article);
     }
@@ -63,10 +58,9 @@ public class ArticleService {
             String password
     ) {
         //Find article by id
-        Optional<Article> optionalTarget = articleRepository.findById(id);
-        if (optionalTarget.isEmpty()) return null;
+        Article target = articleRepository.findById(id)
+                .orElseThrow(() -> new NoSuchElementException("Article not found with id: " + id));
 
-        Article target = optionalTarget.get();
 
         // Check password
         if (!target.getPassword().equals(password)) {
@@ -77,10 +71,9 @@ public class ArticleService {
         target.setContent(content);
 
         // boardId not null, update board
-        if (boardId != null)
-        {
+        if (boardId != null) {
             Board board = boardRepository.findById(boardId)
-                    .orElseThrow();
+                    .orElseThrow(() -> new NoSuchElementException("Board not found with id: " + boardId));
             target.setBoard(board);
         }
 
@@ -89,23 +82,20 @@ public class ArticleService {
 
     //DELETE
     public void delete(Long id, String password) {
-        Optional<Article> optional = articleRepository.findById(id);
+        Article article = articleRepository.findById(id)
+                .orElseThrow(() -> new NoSuchElementException("Article not found with id: " + id));
 
-        if (optional.isEmpty()) {
-            throw new NoSuchElementException("Article not found");
-        }
-
-        Article article = optional.get();
         if (!article.getPassword().equals(password)) {
             throw new IllegalArgumentException("Password incorrect");
         }
 
         articleRepository.deleteById(id);
     }
+
     // Method to find all articles by Board ID
     public List<Article> findArticlesByBoardId(Long boardId) {
-        Board board = boardRepository.findById(boardId)
-                .orElseThrow(() -> new IllegalArgumentException("Board not found with id: " + boardId));
+        boardRepository.findById(boardId)
+                .orElseThrow(() -> new NoSuchElementException("Board not found with id: " + boardId));
         return articleRepository.findByBoardId(boardId);
     }
 

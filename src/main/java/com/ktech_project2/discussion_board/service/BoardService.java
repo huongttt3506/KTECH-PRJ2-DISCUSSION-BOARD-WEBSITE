@@ -21,7 +21,7 @@ public class BoardService {
             Board board = new Board(name);
             return boardRepository.save(board);
         }
-        return null;
+        throw new IllegalArgumentException("Board with this name already exists");
     }
 
 

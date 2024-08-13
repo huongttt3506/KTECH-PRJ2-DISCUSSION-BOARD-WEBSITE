@@ -26,25 +26,19 @@ public class ArticleController {
     public String createForm(Model model) {
         List<Board> boards = boardService.readAll();
         model.addAttribute("boards", boards);
-        return "/articles/new";
+        return "new";
     }
 
     @PostMapping("new")
     public String create(
-            @RequestParam("boardId")
-            Long boardId,
-            @RequestParam("title")
-            String title,
-            @RequestParam("content")
-            String content,
-            @RequestParam("password")
-            String password
+            @RequestParam("boardId") Long boardId,
+            @RequestParam("title") String title,
+            @RequestParam("content") String content,
+            @RequestParam("password") String password) {
 
-    ) {
         Long articleId = articleService.create(boardId, title, content, password).getId();
         return String.format("redirect:/articles/%d", articleId);
     }
-
 
     //READ
     //READ ALL
@@ -55,7 +49,7 @@ public class ArticleController {
     }
 
     //READ ONE
-    // /articles}/{articleId}
+    // /articles/{articleId}
     @GetMapping("{articleId}")
     public String readOne(
             @PathVariable("articleId")
@@ -63,9 +57,9 @@ public class ArticleController {
             Model model
     ) {
         model.addAttribute("article", articleService.readOne(articleId));
-        return "articles/read";
+        return "read";
     }
-    //READ ALL ARTICLES BY BOARDID
+    //READ ALL ARTICLES BY BOARD ID
     // Endpoint to get all articles by Board ID
     @GetMapping("/{boardId}/articles")
     public String getArticlesByBoardId(
@@ -85,8 +79,10 @@ public class ArticleController {
             Long articleId,
             Model model
     ) {
+        List<Board> boards = boardService.readAll();
         model.addAttribute("article", articleService.readOne(articleId));
-        return "articles/update";
+        model.addAttribute("boards", boards);
+        return "update";
     }
     @PostMapping("{articleId}/update")
     public String update(

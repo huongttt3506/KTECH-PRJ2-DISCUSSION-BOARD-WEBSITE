@@ -1,30 +1,24 @@
 package com.ktech_project2.discussion_board.model;
 
 import jakarta.persistence.*;
-import lombok.Getter;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
-@Getter
+@Data
+@NoArgsConstructor
 public class Article {
     @Id
     @GeneratedValue (strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Setter
     private String title;
-
-    @Setter
     private String content;
-
-    @Setter
     private String password;
-
-    @Setter
     private LocalDateTime createAt;
-
 
     @PrePersist
     protected void onCreate() {
@@ -45,6 +39,8 @@ public class Article {
 //            inverseJoinColumns = @JoinColumn(name = "hashtagId")
 //    )
 //    private List<HashTag> hashtags;
+
+
 
     public Article(String title, String content, String password) {
         this.title = title;

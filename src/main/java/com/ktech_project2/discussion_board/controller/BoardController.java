@@ -31,7 +31,7 @@ public class BoardController {
         model.addAttribute("boards", boards);
         model.addAttribute("articles", articles);
         model.addAttribute("selectedBoard", null);
-        return "boards.html";
+        return "boards";
     }
     //read all articles by boardId
     @GetMapping("{boardId}")
@@ -47,7 +47,7 @@ public class BoardController {
         model.addAttribute("boards", boards);
         model.addAttribute("articles", articles);
         model.addAttribute("selectedBoard", selectedBoard);
-        return "boards.html";
+        return "boards";
     }
 }
 
