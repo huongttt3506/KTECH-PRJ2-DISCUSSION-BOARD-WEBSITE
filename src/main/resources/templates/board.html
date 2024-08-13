@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Boards</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Grid Container for Boards -->
+        <div class="grid-container">
+            <div th:value="${boardId}" th:each="board: ${boards}">
+                <a th:href="@{/boards/{boardId}}">[[{board.name}]]</a>
+            </div>
+        </div>
+
+        <div class="article-list">
+            <div><h1>[[{board.name}]]</h1></div>
+            <div><h1 style="text-align: right"><a href="/articles/new" class="btn-create-article">WRITE</a></h1></div>
+        </div>
+
+        <hr>
+        
+        <!--case: article is empty-->
+        <div th:if="${articles.isEmpty()}">
+            <p>No articles here</p>
+        </div>
+
+        <!--case: article is not empty-->
+        <!-- Table Article list here-->
+         <!--|#|title|-->
+         <!--|{article-id}|{article-title}-->
+        <div 
+            th:unless="${articles.isEmpty}"
+            th:each="article: ${articles}"
+         >
+            <table class="table-article-list">
+                <thead>
+                    <tr id="heading-table">
+                        <th>#</th>
+                        <th>Title</th>
+                    </tr>
+                </thead>
+            
+                <tbody>
+                    <tr>
+                        <td>[[${article.id}]]</td>
+                        <td>[[${article.title}]]</td>
+                    </tr>
+                </tbody>
+             </table>
+        </div>
+
+    </div>
+</body>
+</html>
