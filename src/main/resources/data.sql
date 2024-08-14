@@ -24,3 +24,8 @@ VALUES
         (4, 'title 15', 'content 15', '1'),
         (4, 'title 16', 'content 16', '1'),
         (4, 'title 17', 'content 17', '1');
+
+SELECT * FROM Article 
+WHERE board_id = 1 AND id > :articleId ORDER BY id ASC;
+SELECT * FROM Article WHERE board_id = :boardId AND id < :articleId ORDER BY id DESC;
+
