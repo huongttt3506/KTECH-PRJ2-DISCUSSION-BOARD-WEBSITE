@@ -1,0 +1,22 @@
+<<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Search Results</title>
+</head>
+<body>
+<h1>Search Results</h1>
+
+<div th:if="${articles != null and articles.size() > 0}">
+    <ul>
+        <li th:each="article : ${articles}">
+            <a th:href="@{/articles/{articleId}(articleId=${article.id})}" th:text="${article.title}">Article Title</a>
+            <p th:text="${article.content}"></p>
+        </li>
+    </ul>
+</div>
+
+<div th:if="${articles == null or articles.size() == 0}">
+    <p>No articles found.</p>
+</div>
+</body>
+</html>

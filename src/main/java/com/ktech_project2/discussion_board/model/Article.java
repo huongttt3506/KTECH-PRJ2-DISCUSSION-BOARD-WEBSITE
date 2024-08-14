@@ -26,6 +26,7 @@ public class Article {
     }
 
     @ManyToOne
+    @JoinColumn(name = "board_id")
     private Board board;
 
     @OneToMany (mappedBy = "article", cascade = CascadeType.ALL)

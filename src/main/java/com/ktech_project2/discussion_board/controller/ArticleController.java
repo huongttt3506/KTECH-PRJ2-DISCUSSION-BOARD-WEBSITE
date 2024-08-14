@@ -56,17 +56,32 @@ public class ArticleController {
 
     //READ ONE
     // /articles/{articleId}
-    @GetMapping("{articleId}")
+    @GetMapping("/{articleId}")
     public String readOne(
-            @PathVariable("articleId")
-            Long articleId,
+            @PathVariable("articleId") Long articleId,
             Model model
-    ) {Article article = articleService.readOne(articleId);
+    ) {
+        Article article = articleService.readOne(articleId);
         List<Comment> comments = commentService.readAll(articleId);
+        Board board = article.getBoard();
+
+
+        List<Article> nextArticles = articleService.findNextArticles(articleId, board.getId());
+
+        List<Article> previousArticles = articleService.findPreviousArticles(articleId, board.getId());
+
+
+        Article nextArticle = nextArticles.isEmpty() ? null : nextArticles.get(0);
+        Article previousArticle = previousArticles.isEmpty() ? null : previousArticles.get(0);
+
         model.addAttribute("article", article);
         model.addAttribute("comments", comments);
+        model.addAttribute("nextArticle", nextArticle);
+        model.addAttribute("previousArticle", previousArticle);
+
         return "read";
     }
+
     //READ ALL ARTICLES BY BOARD ID
     // Endpoint to get all articles by Board ID
     @GetMapping("/{boardId}/articles")
@@ -119,26 +134,27 @@ public class ArticleController {
         return "redirect:/articles";
     }
 
-    // GET PREVIOUS ARTICLE -  NEXT ARTICLE
-    @GetMapping("/articles/{articleId}")
-    public String getArticleDetails(@PathVariable Long articleId, Model model) {
-        Article article = articleService.readOne(articleId);
-        if (article != null) {
-            Board board = article.getBoard();
-            Optional<Article> previousArticle = articleService.findPreviousArticle(board, articleId);
-            Optional<Article> nextArticle = articleService.findNextArticle(board, articleId);
-
-            model.addAttribute("article", article);
-            model.addAttribute("previousArticle", previousArticle.orElse(null));
-            model.addAttribute("nextArticle", nextArticle.orElse(null));
-
-            System.out.println("Previous Article: " + previousArticle);
-            System.out.println("Next Article: " + nextArticle);
-            return "read";
-        }
-        return "redirect:/articles";
+    // SEARCH KEY WORD
+    @GetMapping("/searchByTitle")
+    public String searchByTitle(@RequestParam("keyword") String keyword, Model model) {
+        List<Article> articles = articleService.searchByTitle(keyword);
+        model.addAttribute("articles", articles);
+        return "searchResults";
     }
 
+    @GetMapping("/searchByContent")
+    public String searchByContent(@RequestParam("keyword") String keyword, Model model) {
+        List<Article> articles = articleService.searchByContent(keyword);
+        model.addAttribute("articles", articles);
+        return "searchResults";
+    }
+
+    @GetMapping("/search")
+    public String search(@RequestParam("keyword") String keyword, Model model) {
+        List<Article> articles = articleService.searchByTitleOrContent(keyword);
+        model.addAttribute("articles", articles);
+        return "searchResults";
+    }
 
 
 }

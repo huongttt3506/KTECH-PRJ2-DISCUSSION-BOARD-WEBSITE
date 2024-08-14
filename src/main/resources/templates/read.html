@@ -13,9 +13,14 @@
   <div class="mt-3">
     <div>
       <!-- Previous article link -->
-      <a th:if="${previousArticle != null}" th:href="@{/articles/{articleId}(articleId=${previousArticle.id})}" class="btn btn-primary">Previous Article</a>
+      <a th:if="${previousArticle != null}"
+         th:href="@{/articles/{articleId}(articleId=${previousArticle.id})}"
+         class="btn btn-primary">Previous Article</a>
+
       <!-- Next article link -->
-      <a th:if="${nextArticle != null}" th:href="@{/articles/{articleId}(articleId=${nextArticle.id})}" class="btn btn-primary">Next Article</a>
+      <a th:if="${nextArticle != null}"
+         th:href="@{/articles/{articleId}(articleId=${nextArticle.id})}"
+         class="btn btn-primary">Next Article</a>
     </div>
 
   </div>
@@ -62,9 +67,9 @@
         <input type="password" name="password" placeholder="비밀번호" required />
         <button type="submit" class="btn btn-danger">Delete</button>
       </form>
-    </div>
-    <hr>
+      <hr>
   </div>
+
 
 
 </div>

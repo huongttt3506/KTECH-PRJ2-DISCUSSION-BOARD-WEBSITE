@@ -18,16 +18,13 @@ import java.util.Optional;
 public class ArticleService {
     private final ArticleRepository articleRepository;
     private final BoardRepository boardRepository;
-    private final CommentRepository commentRepository;
 
     public ArticleService(
             ArticleRepository articleRepository,
-            BoardRepository boardRepository,
-            CommentRepository commentRepository
+            BoardRepository boardRepository
     ) {
         this.articleRepository = articleRepository;
         this.boardRepository = boardRepository;
-        this.commentRepository = commentRepository;
     }
 
     //Create
@@ -103,21 +100,29 @@ public class ArticleService {
                 .orElseThrow(() -> new NoSuchElementException("Board not found with id: " + boardId));
         return articleRepository.findByBoardId(boardId);
     }
+    // next article, previous article
 
-
-    // Find previous article in the same board
-    public Optional<Article> findPreviousArticle(Board board, Long articleId) {
-        return articleRepository.findPreviousArticle(board, articleId);
-    }
-    // Find next article in the same board
-    public Optional<Article> findNextArticle(Board board, Long articleId) {
-        return articleRepository.findNextArticle(board, articleId);
+    public List<Article> findNextArticles(Long articleId, Long boardId) {
+        return articleRepository.findNextArticles(articleId, boardId);
     }
 
+    public List<Article> findPreviousArticles(Long articleId, Long boardId) {
+        return articleRepository.findPreviousArticles(articleId, boardId);
+    }
 
+    // Searching Function by Key Word (by title)
+    public List<Article> searchByTitle(String keyword) {
+        return articleRepository.findByTitleContaining(keyword);
+    }
 
-
-
+    // Searching Function by Key Word (by content)
+    public List<Article> searchByContent(String keyword) {
+        return articleRepository.findByContentContaining(keyword);
+    }
+    // Searching Function by Key Word
+    public List<Article> searchByTitleOrContent(String keyword) {
+        return articleRepository.findByTitleOrContentContaining(keyword);
+    }
 
 
 }
