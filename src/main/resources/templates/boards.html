@@ -23,11 +23,25 @@
         <h1 th:text="${selectedBoard != null ? selectedBoard.name + ' 계시판' : '전체 계시판'}"></h1>
         <h1>
             <a href="/new" class="btn-create-article">WRITE</a>
-            <form action="#" th:action="@{/search}" method="get">
-                <input type="text" name="keyword" placeholder="Enter keyword" required>
+        </h1>
+        <h3>
+            <!-- Searching Form -->
+            <form th:action="@{/articles/search}" method="get">
+                <div>
+                    <label for="keyword">Keyword:</label>
+                    <input type="text" id="keyword" name="keyword" placeholder="Enter keyword" required>
+                </div>
+                <div>
+                    <label for="searchIn">Search in:</label>
+                    <select id="searchIn" name="searchIn">
+                        <option value="title">Title</option>
+                        <option value="content">Content</option>
+                        <option value="both">Both</option>
+                    </select>
+                </div>
                 <button type="submit">Search</button>
             </form>
-        </h1>
+        </h3>
     </div>
 
     <hr>

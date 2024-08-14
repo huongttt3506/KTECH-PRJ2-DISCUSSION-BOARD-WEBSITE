@@ -110,16 +110,17 @@ public class ArticleService {
         return articleRepository.findPreviousArticles(articleId, boardId);
     }
 
-    // Searching Function by Key Word (by title)
+    // Searching Key Word
     public List<Article> searchByTitle(String keyword) {
         return articleRepository.findByTitleContaining(keyword);
     }
 
-    // Searching Function by Key Word (by content)
+
     public List<Article> searchByContent(String keyword) {
         return articleRepository.findByContentContaining(keyword);
     }
-    // Searching Function by Key Word
+
+
     public List<Article> searchByTitleOrContent(String keyword) {
         return articleRepository.findByTitleOrContentContaining(keyword);
     }

@@ -135,23 +135,29 @@ public class ArticleController {
     }
 
     // SEARCH KEY WORD
-    @GetMapping("/searchByTitle")
-    public String searchByTitle(@RequestParam("keyword") String keyword, Model model) {
-        List<Article> articles = articleService.searchByTitle(keyword);
-        model.addAttribute("articles", articles);
-        return "searchResults";
-    }
-
-    @GetMapping("/searchByContent")
-    public String searchByContent(@RequestParam("keyword") String keyword, Model model) {
-        List<Article> articles = articleService.searchByContent(keyword);
-        model.addAttribute("articles", articles);
-        return "searchResults";
-    }
-
     @GetMapping("/search")
-    public String search(@RequestParam("keyword") String keyword, Model model) {
-        List<Article> articles = articleService.searchByTitleOrContent(keyword);
+    public String search(
+            @RequestParam("keyword") String keyword,
+            @RequestParam("searchIn") String searchIn,
+            Model model) {
+
+        List<Article> articles;
+
+        switch (searchIn) {
+            case "title":
+                articles = articleService.searchByTitle(keyword);
+                break;
+            case "content":
+                articles = articleService.searchByContent(keyword);
+                break;
+            case "both":
+                articles = articleService.searchByTitleOrContent(keyword);
+                break;
+            default:
+                articles = List.of();
+                break;
+        }
+
         model.addAttribute("articles", articles);
         return "searchResults";
     }
